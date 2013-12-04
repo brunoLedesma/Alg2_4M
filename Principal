@@ -1,0 +1,228 @@
+import static java.lang.System.out;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Principal {
+    
+    private SList lista;
+    private SList lista2;
+    
+    public Principal() {
+
+    	String aux;
+    	String aux1;
+    	boolean	verdade = true;
+    	lista = new SList(null);
+    	do{
+    		Scanner sc = new Scanner(System.in);
+        		System.out.println("Digite a celula:");
+    		aux = sc.nextLine(); 
+    		System.out.println("Digite a equação:");
+            aux1 = sc.nextLine(); 
+            quebraString(aux, aux1);
+    		listaListas();
+    		}while(verdade);{
+    			
+    		}
+        
+    }
+    public boolean isInt(String str) {  
+    	   boolean isInteger = true;  
+    	   try {  
+    	     int i = Integer.parseInt(str);  
+    	   } catch(NumberFormatException nfe) {  
+    	      isInteger = false;  
+    	   }  
+    	   return isInteger;  
+    	} 
+ //--------------------------------------------------------------------QUEBRA STRING DA ENTRADA------------------------------------------------------------------
+    public void quebraString (String aux, String aux1){
+    	//System.out.println(aux);
+    	int cont = 0; 
+    	while (cont < aux.length()) {
+        	char ch = aux.charAt(cont);
+        	String st = String.valueOf(ch); 
+        	cont++;
+        	criaNode(st, aux, aux1);
+        	//System.out.println(aux + st);	
+    	}
+    	
+    	
+    	
+//--------------------------------------------------------------------TESTA NODO BOOLEAN------------------------------------------------------------------
+    	//Verifica se já existe o nodo vertical criado EX; A , B , C, D.
+    }
+    public boolean testaNodo(String st){
+    	boolean nodo = false; 
+    	Node nodeHorizontal = lista.getFirst();
+	        do  {
+	        	String STR = nodeHorizontal.getElement();
+	    		int resultado = STR.compareTo( st );
+	        	if(resultado == 0){
+	        		nodo = true;
+	        		break;
+	        	}
+	        	nodeHorizontal = nodeHorizontal.getNext();
+	        } while (nodeHorizontal != null);
+	        return nodo;  
+    }
+  //--------------------------------------------------------------------TESTA NODO SEGUNDA LISTA------------------------------------------------------------------
+	//Verifica se já existe o nodo vertical criado EX; A , B , C, D.
+
+public boolean testaNodolISTA(String st, SList list){
+	boolean nodo = false; 
+	Node nodeHorizontal = list.getFirst();
+        do  {
+        	String STR = nodeHorizontal.getElement();
+    		int resultado = STR.compareTo( st );
+        	if(resultado == 0){
+        		nodo = true;
+        		break;
+        	}
+        	nodeHorizontal = nodeHorizontal.getNext();
+        } while (nodeHorizontal != null);
+        
+        return nodo;  
+}
+
+
+  //--------------------------------------------------------------------ADICIONA O SEGUNDA LISTA------------------------------------------------------------------
+	//Verifica se já existe o nodo vertical criado EX; A3 , A4 , A5, A6.
+public void segundoNodo(String st, String aux, String aux1){
+	Node nodeHorizontal = lista.getFirst();
+        do  {
+        	String STR = nodeHorizontal.getElement();
+    		int resultado = STR.compareTo( st );
+        	if(resultado == 0){
+        		SList listaAux = nodeHorizontal.getListas();
+
+        		if(testaNodolISTA(aux, listaAux)){
+        			System.out.println("igual");
+        		}else{
+        			Node node2 = new Node(aux, null, null, aux1);
+        			organizaLista(listaAux,node2);
+         	       // listaAux.addFirst(node2);  
+        		}
+        	}
+        	nodeHorizontal = nodeHorizontal.getNext();
+        } while (nodeHorizontal != null);		
+}
+
+
+//--------------------------------------------------------------------ORGANIZA------------------------------------------------------------------
+public void organizaLista(SList lista, Node node) {
+    //Node node = new Node("C", null,null);
+	boolean teste = true; 
+    Node nodeAux = lista.getFirst();
+    Node aux = null;
+    
+
+    do  {
+        String STRAux = nodeAux.getElement();
+        String STR = node.getElement();
+        int resultado = STR.compareTo( STRAux );
+        
+        if(teste){
+	    	if(resultado < 0){
+	            lista.addMidlle(aux ,node);
+	            teste = false;
+	            } 
+        }
+    	aux = nodeAux;
+        nodeAux = nodeAux.getNext();
+    } while (nodeAux != null);{
+    	if(teste){
+    		lista.addLast(node);
+    	}
+    }
+}
+
+  //--------------------------------------------------------------------CRIA NODO------------------------------------------------------------------  
+    public void criaNode (String st, String aux, String aux1){
+    	
+    	SList listaAux;
+    	if( !isInt(st)){
+    		if(lista.getSize() == 0 ){
+    			lista2 = new SList(st);
+    	        Node node = new Node(st, null, lista2, null);
+    	        lista.addFirst(node);
+    	        
+    	        Node nodeHorizontal = lista.getFirst();
+    	        listaAux = nodeHorizontal.getListas();
+    	        Node node2 = new Node(aux, null, null, aux1);
+    	        listaAux.addFirst(node2);
+    	        }else{
+        	        	if(testaNodo(st)){
+        	        	segundoNodo(st, aux, aux1);
+        	        	
+        	        	}else{
+        	        		lista2 = new SList(st);
+    	        	        Node node = new Node(st, null, lista2, aux1);
+    	        	        //organizaLista(lista, node);
+    	        	        lista.addFirst(node);
+    	        	        
+    	        	        Node nodeHorizontalnovo = lista.getFirst();
+    	        	        
+    	        	        listaAux = nodeHorizontalnovo.getListas();
+    	        	        Node node2 = new Node(aux, null, null, aux1);
+    	        	        listaAux.addFirst(node2);
+        	        	} 
+    	        	}
+    	}
+    	
+    }
+ 
+    
+    
+
+    public void printLista() {
+        Node node = lista.getFirst();
+        do  {
+            System.out.println( "Elemento:" + node.getElement() );
+            node = node.getNext();
+        } while (node != null);
+    }
+
+    public void printListathead() {
+    	//Node node = lista.getFirst();
+    	//System.out.println(node);
+    	
+    } 
+    public void listaListas() {
+    	SList listaAux;
+    	String juntaAux = "";
+        Node nodeHorizontal = lista.getFirst();
+        do  {
+            if(nodeHorizontal.getElement()!= null){
+            	System.out.println(nodeHorizontal.getElement() );
+            	
+            	listaAux = nodeHorizontal.getListas();
+            	if(listaAux != null){
+            		Node nodeVertical = listaAux.getFirst();
+	                do  {
+	                	juntaAux += nodeVertical.getElement() + ":" + nodeVertical.getCelula()+ "  ";
+	                	nodeVertical = nodeVertical.getNext();
+	                } while (nodeVertical != null);
+	                
+	                	System.out.println( juntaAux );
+	                juntaAux = "";
+	               
+	            	}
+            }
+            nodeHorizontal = nodeHorizontal.getNext();
+        } while (nodeHorizontal != null);
+    }
+
+    public SList getSlista(){
+    	return lista;
+    }
+	public static void main(String[] args) throws Exception {
+		(new Principal()).run();
+	}
+    public void run() throws Exception {
+
+
+    	}
+    
+	}
