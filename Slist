@@ -1,0 +1,86 @@
+public class SList {
+	private String nome;
+    private Node head;
+    private int size;
+    
+    /** Creates a new instance of SList */
+    public SList( String x) {
+        head = null;
+        size = 0;
+        setNome(x);
+    }
+    
+    private void setNome(String x) {
+    	this.nome = x;
+		
+	}
+    public String getNome() {
+        return nome;
+    }
+
+	public Node getFirst() throws IllegalArgumentException {
+        if (head == null)
+            throw new IllegalArgumentException("Lista Vazia");
+        return head;
+    }
+    
+    public Node getNext(Node n) throws IllegalArgumentException {
+        if (size == 0)
+            throw new IllegalArgumentException("Lista vazia");
+        if (n.getNext() == null)
+            throw new IllegalArgumentException("fim da lista");
+        return n.getNext();
+    }
+    
+    public void addFirst(Node v) {
+        v.setNext(head);
+        //System.out.println( head);
+        head = v;
+       // System.out.println( head);
+        size++;
+      
+    }
+    public void  addMidlle(Node anterior, Node v) {
+
+    	//System.out.println( v);
+    	Node aux = anterior.getNext();
+
+    	anterior.setNext(v);
+    	//System.out.println( v);
+    	v.setNext(aux);
+    	//System.out.println( anterior);
+    	size++;
+    }
+
+    
+    public void addLast(Node v) {
+        if (head != null) {
+            
+            Node aux = null;
+            for (aux = head; aux.getNext() != null; aux = aux.getNext() );
+            v.setNext(null);
+            aux.setNext(v);
+            size++;
+            
+            
+        } else {
+            addFirst(v);
+        }
+    }
+    
+    public void removeFirst() throws IllegalArgumentException {
+        if (size == 0)
+            throw new IllegalArgumentException();
+        
+        Node aux = head;
+        head = head.getNext();
+        aux.setNext(null);
+        size --;        
+    }
+	public int getSize() {
+        return size;
+    }
+
+    
+   
+}
